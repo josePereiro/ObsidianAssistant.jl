@@ -1,0 +1,13 @@
+name = "ObsidianAssistant"
+uuid = "ef2754c0-c555-4d81-bf39-f3e359f0c7f3"
+authors = ["josePereiro <jose.pereiro.lab@gmail.com> and contributors"]
+version = "0.1.0"
+
+[compat]
+julia = "1.6"
+
+[extras]
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["Test"]
