@@ -3,7 +3,7 @@ function extract_vault_cli(argv::Vector)
     argset = ArgParseSettings()
     @add_arg_table! argset begin
         "--source_name", "-s"
-            help = "The name of the destination vault"
+            help = "The name of the source vault"
             arg_type = String
             default = basename(pwd())
         "--target_name", "-t"
