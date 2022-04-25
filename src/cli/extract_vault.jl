@@ -9,6 +9,7 @@ function extract_vault_cli(argv::Vector)
         "--target_name", "-t"
             help = "The name of the destination vault"
             arg_type = String
+            required = true
         "--deep", "-d"
             help = "The deep level of the ramification"
             arg_type = Int
@@ -19,7 +20,7 @@ function extract_vault_cli(argv::Vector)
     end
 
     parsed_args = parse_args(argv, argset)
-    dest_name = basename(parsed_args["target_name"])
+    target_name = basename(parsed_args["target_name"])
     src_name = basename(parsed_args["source_name"])
     verbose = !parsed_args["mute"]
     deep = parsed_args["deep"]
@@ -27,18 +28,18 @@ function extract_vault_cli(argv::Vector)
     storage = checked_vaults_storage()
     
     src_vault = joinpath(storage, src_name)
-    dest_vault = joinpath(storage, dest_name)
+    target_vault = joinpath(storage, target_name)
 
-    for vault in [src_vault, dest_vault]
+    for vault in [src_vault, target_vault]
         !isdir(vault) && error("vault not found: '", vault, "'")
     end
 
     if verbose
         println("Params")
-        @show src_vault dest_vault deep
+        @show src_vault target_vault deep
         println()
     end
 
-    _move_subgraph(src_vault, dest_vault; deep, verbose)
+    _move_subgraph(src_vault, target_vault; deep, verbose)
 
 end
