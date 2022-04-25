@@ -1,7 +1,7 @@
 name = "ObsidianAssistant"
 uuid = "ef2754c0-c555-4d81-bf39-f3e359f0c7f3"
 authors = ["josePereiro <jose.pereiro.lab@gmail.com> and contributors"]
-version = "0.1.2"
+version = "0.1.3"
 
 [deps]
 FilesTreeTools = "638332cd-b357-4bf5-bfa2-3531168477f5"
