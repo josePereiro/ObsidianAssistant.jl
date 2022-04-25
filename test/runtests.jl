@@ -1,6 +1,9 @@
 using ObsidianAssistant
+const ObA = ObsidianAssistant
 using Test
 
 @testset "ObsidianAssistant.jl" begin
-    # Write your tests here.
+    
+    include("test_regexs.jl")
+
 end
