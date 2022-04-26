@@ -1,5 +1,5 @@
 const TAG_REGEX = r"(?<=\#)(?<txt>[A-Za-z_][A-Za-z0-9_/]*)"
-const EXTRACT_FILE_LINK_REGEX = r"(?<=\[\[)(?<txt>(?<file>[^\|\#\n]*)(?:\#(?<ider>[^\|\n]*))?(?:\|(?<alias>[^\n]*))?)(?=\]\])"
+const EXTRACT_FILE_LINK_REGEX = r"(?<=\[\[)(?<txt>(?<file>[^\|\#\n]*?)(?:\#(?<ider>[^\|\n]*?))?(?:\|(?<alias>[^\n]*?))?)(?=\]\])"
 const HEADER_EXTRACTOR_REGEX = r"\n*(?<lvl>\#+)\s+(?<txt>.*)\n"
 
 function _extract_link_files(mdfile::AbstractString)
