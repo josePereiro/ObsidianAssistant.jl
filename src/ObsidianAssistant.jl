@@ -15,13 +15,21 @@ module ObsidianAssistant
 
 using FilesTreeTools
 using ArgParse: @add_arg_table!, ArgParseSettings, parse_args
+using EasyEvents
 
-include("config.jl")
-include("extractors.jl")
-include("move_subgraph.jl")
-include("subgraph.jl")
+import YAML
+
 include("utils.jl")
 
-include("cli/extract_vault.jl")
+include("server/AST_cache.jl")
+include("server/globals.jl")
+include("server/server_iter.jl")
+
+include("parser/AST_methods.jl")
+include("parser/extractors.jl")
+include("parser/line_parser.jl")
+include("parser/regexs.jl")
+include("parser/parsers.jl")
+include("parser/utils.jl")
 
 end

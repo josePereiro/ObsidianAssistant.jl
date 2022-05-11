@@ -17,7 +17,8 @@ function subgraph(isroot::Function, vault::AbstractString;
         curr_level = String[]
         parents = last(tree)
         for mdfile in parents
-            links = _extract_link_files(mdfile)
+            str = read(mdfile, String)
+            links = _extract_links(str)
             # TODO: Create all possible paths by finding all dirs (better performance)
             walkdown(vault; keepout) do path
                 name = replace(basename(path), r".md$" => "")

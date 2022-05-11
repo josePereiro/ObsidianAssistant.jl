@@ -36,7 +36,7 @@ end
 # -------------------------------------------------------------------
 # File links
 let
-    reg = ObA.EXTRACT_FILE_LINK_REGEX
+    reg = ObA.FILE_LINK_REGEX
 
     link = "[[file]]"
     m = match(reg, link)

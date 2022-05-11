@@ -4,9 +4,12 @@ authors = ["josePereiro <jose.pereiro.lab@gmail.com> and contributors"]
 version = "0.1.4"
 
 [deps]
-FilesTreeTools = "638332cd-b357-4bf5-bfa2-3531168477f5"
-TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 ArgParse = "c7e460c6-2fb9-53a9-8c5b-16f535851c63"
+EasyEvents = "1c3e8eab-fb9d-4faa-86a4-2d4d6165c1a6"
+FilesTreeTools = "638332cd-b357-4bf5-bfa2-3531168477f5"
+StringRepFilter = "bfe2832f-5600-46d7-a449-140889a58637"
+TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+YAML = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 
 [compat]
 julia = "1.6"
