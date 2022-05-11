@@ -28,8 +28,4 @@ collect_tags(AST::Vector) = collect_dat(AST, TEXT_LINE, "tags", Dict{String, Str
 collect_links(AST::Vector) = collect_dat(AST, TEXT_LINE, "links", Dict{String, String})
 collect_headers(AST::Vector) = collect_dat(AST, HEADER, Dict{String, String})
 
-function collect_comments(AST::Vector)
-    arr0 = collect_dat(AST, COMMENT_BLOCK, Dict{String, String})
-    arr1 = collect_dat(AST, COMMENT_LINE, Dict{String, String})
-    push!(arr0, arr1...)
-end
+collect_comments(AST::Vector) = collect_dat(AST, COMMENT_BLOCK, Dict{String, String})

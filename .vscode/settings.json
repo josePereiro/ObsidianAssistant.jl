@@ -1,5 +1,8 @@
 {
     "cSpell.enableFiletypes": [
         "julia"
+    ],
+    "cSpell.words": [
+        "jlfiles"
     ]
 }

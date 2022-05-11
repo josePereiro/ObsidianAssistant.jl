@@ -27,9 +27,9 @@ deps = ["ArgTools", "LibCURL", "NetworkOptions"]
 uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 
 [[deps.EasyEvents]]
-git-tree-sha1 = "d6a91da0fb81848144ee98662c2453f2fc9159e2"
+git-tree-sha1 = "8bcc04c5625b8f1bae7c62de360af373a1116d57"
 uuid = "1c3e8eab-fb9d-4faa-86a4-2d4d6165c1a6"
-version = "0.2.0"
+version = "0.3.2"
 
 [[deps.FilesTreeTools]]
 git-tree-sha1 = "8d3e2e3b484834e41a6c1f6322640c160d0bf093"

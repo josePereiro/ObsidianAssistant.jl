@@ -5,8 +5,8 @@ const INIT_SCOPE = :INIT
 const GLOBAL_SCOPE = :GLOBAL
 const YAML_BLOCK = :YAML_BLOCK
 const COMMENT_BLOCK = :COMMENT_BLOCK
-const COMMENT_LINE = :COMMENT_LINE
 const LATEX_BLOCK = :LATEX_BLOCK
+const CODE_BLOCK = :CODE_BLOCK
 const HEADER = :HEADER
 const TEXT_LINE = :TEXT_LINE
 const EMPTY_LINE = :EMPTY_LINE
@@ -52,7 +52,7 @@ function _parse_lines(lines)
 
         # ----------------------------------------------------------------
         # unvalidate INIT_SCOPE
-        rmatch = match(BLACK_LINE_REGEX, line)
+        rmatch = match(BLANK_LINE_REGEX, line)
         if scope === INIT_SCOPE && isnothing(rmatch)
             scope = GLOBAL_SCOPE
         end
@@ -71,12 +71,14 @@ function _parse_lines(lines)
         end
 
         # ----------------------------------------------------------------
-        # comment line
-        rmatch = match(COMMENT_LINE_REGEX, line)
+        # COMMENT BLOCK
+
+        # inline
+        rmatch = match(COMMENT_BLOCK_INLINE_REGEX, line)
         if scope === GLOBAL_SCOPE && !isnothing(rmatch)
             push!(AST, 
                 Dict(
-                    :type => COMMENT_LINE, 
+                    :type => COMMENT_BLOCK, 
                     :line => li, 
                     :src => [line]
                 )
@@ -84,8 +86,7 @@ function _parse_lines(lines)
             continue
         end
 
-        # ----------------------------------------------------------------
-        # comment block start
+        # multiline
         rmatch = match(COMMENT_BLOCK_START_LINE_REGEX, line)
         if scope === GLOBAL_SCOPE && !isnothing(rmatch)
             multi_line_obj = Dict(
@@ -113,7 +114,22 @@ function _parse_lines(lines)
         end
 
         # ----------------------------------------------------------------
-        # latex block start
+        # LATEX BLOCK
+
+        # inline
+        rmatch = match(LATEX_BLOCK_INLINE_REGEX, line)
+        if scope === GLOBAL_SCOPE && !isnothing(rmatch)
+            push!(AST, 
+                Dict(
+                    :type => LATEX_BLOCK, 
+                    :line => li, 
+                    :src => [line]
+                )
+            )
+            continue
+        end
+
+        # multiline
         rmatch = match(LATEX_BLOCK_START_LINE_REGEX, line)
         if scope === GLOBAL_SCOPE && !isnothing(rmatch)
             multi_line_obj = Dict(
@@ -141,8 +157,51 @@ function _parse_lines(lines)
         end
 
         # ----------------------------------------------------------------
+        # CODE BLOCK
+
+        # inline
+        rmatch = match(CODE_BLOCK_INLINE_REGEX, line)
+        if scope === GLOBAL_SCOPE && !isnothing(rmatch)
+            push!(AST, 
+                Dict(
+                    :type => CODE_BLOCK, 
+                    :line => li, 
+                    :src => [line]
+                )
+            )
+            continue
+        end
+
+        # multiline
+        rmatch = match(CODE_BLOCK_START_LINE_REGEX, line)
+        if scope === GLOBAL_SCOPE && !isnothing(rmatch)
+            multi_line_obj = Dict(
+                :type => CODE_BLOCK, 
+                :line => li, 
+                :src => [line]
+            )
+
+            # enter block
+            push!(AST, multi_line_obj)
+            scope = CODE_BLOCK
+            continue
+        end
+
+        # code block section content/end
+        if scope === CODE_BLOCK
+            push!(multi_line_obj[:src], line)
+            rmatch = match(CODE_BLOCK_END_LINE_REGEX, line)
+            if !isnothing(rmatch)
+                # exit block
+                scope = GLOBAL_SCOPE
+                multi_line_obj = nothing
+            end
+            continue
+        end
+
+        # ----------------------------------------------------------------
         # Text line
-        rmatch = match(BLACK_LINE_REGEX, line)
+        rmatch = match(BLANK_LINE_REGEX, line)
         if scope === GLOBAL_SCOPE && isnothing(rmatch)
             push!(AST, 
                 Dict(
@@ -156,7 +215,7 @@ function _parse_lines(lines)
 
         # ----------------------------------------------------------------
         # empty line
-        rmatch = match(BLACK_LINE_REGEX, line)
+        rmatch = match(BLANK_LINE_REGEX, line)
         if scope === GLOBAL_SCOPE && !isnothing(rmatch)
             push!(AST, 
                 Dict(
@@ -199,10 +258,18 @@ function _parse_dat!(AST::Vector)
         end
 
         # COMMENTS
-        if type == COMMENT_LINE || type == COMMENT_BLOCK
+        if type == COMMENT_BLOCK
             line_AST[:dat] = parse_comment(src)
             continue
         end
+
+        # CODE block
+        if type == CODE_BLOCK
+            line_AST[:dat] = parse_code_block(src)
+            continue
+        end
+
+        parse_code_block
 
         # TEXT
         if type == TEXT_LINE

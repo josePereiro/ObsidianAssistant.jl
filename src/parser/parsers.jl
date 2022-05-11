@@ -11,8 +11,13 @@ function parse_header(src::AbstractString)
 end
 
 function parse_comment(src::AbstractString)
-    return _match_dict(COMMENT_LINE_PARSER_REGEX, src)
+    return _match_dict(COMMENT_BLOCK_PARSER_REGEX, src)
 end
+
+function parse_code_block(src::AbstractString)
+    return _match_dict(CODE_BLOCK_PARSER_REGEX, src)
+end
+
 
 function parse_text(src::AbstractString)
     dat_ = Dict{String, Any}()
