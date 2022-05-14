@@ -14,8 +14,8 @@
 module ObsidianAssistant
 
 using FilesTreeTools
-using ArgParse: @add_arg_table!, ArgParseSettings, parse_args
-using EasyEvents
+import ArgParse: @add_arg_table!, ArgParseSettings, parse_args
+import EasyEvents: reset!, update!, has_event!, FileContentEvent, FileMTimeEvent
 
 import YAML
 
@@ -24,6 +24,8 @@ include("utils.jl")
 include("server/AST_cache.jl")
 include("server/globals.jl")
 include("server/server_iter.jl")
+include("server/timer.jl")
+include("server/wait_for_trigger.jl")
 
 include("parser/AST_methods.jl")
 include("parser/extractors.jl")

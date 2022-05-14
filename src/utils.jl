@@ -14,3 +14,30 @@ function foreach_file(f::Function, vault, ext = ".md"; keepout = [".obsidian", "
         f(path)
     end
 end
+
+# ------------------------------------------------------------------
+function findall_files(vault::AbstractString, ext = ".md";
+        sortby = mtime, sortrev = false, keepout = [".obsidian", ".git"]
+    )
+
+    files = filterdown((path) -> endswith(path, ext), vault; keepout)
+    
+    sort!(files; by = sortby, rev = sortrev)
+
+    return files
+end
+
+
+# ------------------------------------------------------------------
+const START_UP_FILE_NAME = "startup.oba.jl"
+function find_startup(vault; keepout = [".obsidian", ".git"])
+    path = ""
+    walkdown(vault; keepout) do path_
+        if basename(path_) == "startup.oba.jl"
+            path = path_
+            return true
+        end
+        return false
+    end
+    return path
+end
